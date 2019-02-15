@@ -17,37 +17,20 @@ export class PostPage extends React.Component {
   }
 
   getFilterData() {
-    const finaldata = _.filter(this.props.postActions, userObj => {
-      const title = userObj.title;
-      const body = userObj.body;
-      const titleSet = title.split(" ");
-      const bodySet = body.split(" ");
-      const totalSet = [...titleSet, ...bodySet];
-      let count = 0;
-      _.map(totalSet, postTitle => {
-        if (postTitle === this.state.searchPost) {
-          count++;
-        }
-      });
-      return count;
-    });
-    this.setState({
-      filterData: finaldata
+    if (!this.state.searchPost.length) return this.props.postActions;
+    return _.filter(this.props.postActions, userObj => {
+      return (userObj.body + userObj.title).indexOf(this.state.searchPost) > -1;
     });
   }
 
   handleChangeText(e) {
-    this.setState(
-      {
-        searchPost: e.target.value
-      },
-      () => {
-        this.getFilterData();
-      }
-    );
+    this.setState({
+      searchPost: e.target.value
+    });
   }
 
   render() {
+    const filterData = this.getFilterData();
     return (
       <div>
         <p>Welcome to posts page</p>
@@ -59,8 +42,8 @@ export class PostPage extends React.Component {
           onChange={this.handleChangeText.bind(this)}
         />
         <div className="grid-style">
-          {this.state.filterData.length ? (
-            this.state.filterData.map((post, key) => {
+          {filterData.length ? (
+            filterData.map((post, key) => {
               return <PostDetails key={key} postDetails={post} />;
             })
           ) : (
