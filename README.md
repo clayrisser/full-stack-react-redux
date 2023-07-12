@@ -11,6 +11,8 @@
 
 A comprehensive starter kit for rapid application development using React.
 
+![](assets/full-stack-react-redux.png)
+
 Why Slingshot?
 
 1. **One command to get started** - Type `npm start` to start development in your default browser.
